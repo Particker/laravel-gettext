@@ -1,0 +1,2 @@
+# laravel-gettext
+laravel gettext
