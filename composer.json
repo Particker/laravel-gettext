@@ -1,0 +1,23 @@
+{
+	"name" : "laravel-gettext/laravel-gettext",
+	"description" : "laravell gettext",
+	"type" : "gettext",
+	"homepage" : "https://github.com/Particker/laravel-gettext.git",
+	"license" : "Apache License 2.0",
+	"support" : {
+		"email" : "wangshanliang13145@163.com",
+		"source" : "https://github.com/Particker/laravel-gettext.git"
+	},
+	"keywords" : [
+		"laravel gettext particker"
+	],
+	"require": {
+        "php": ">=5.3",
+        "gettext/gettext": "3.6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Particker\\LaravelGettext\\": "src/Particker/LaravelGettext/"
+        }
+    }
+}
