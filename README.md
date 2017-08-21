@@ -1,191 +1,43 @@
-Laravel 5.4 Gettext
+Gettext for Laravel
+=========
 
-With this package you can load/parse/store gettext strings
+This library is heavliy inspired (and partially based on) [netson/l4gettext] and you should really use his library instead of mine. 
 
-Installation
+I wrote this because I wanted to learn more about gettext (and package creating with laravel in general). I do not plan on supporting this library.
 
-Begin by installing this package through Composer.
+Get started
+----
+First of you need to publish the configuration
+```php
+php artisan config:publish particker/gettext
+```
 
-{
-    "require": {
-        "particker/laravel-gettext": "1.0.*"
-    }
-}
-Laravel installation
+After your changes to the config, you can go ahead and add the service provider to the list of providers in app/config/app.php:
+```php
+'Particker\Gettext\GettextServiceProvider'
+```
 
+You might need to make sure that php can write to app/lang since that is the folder where the POT-files will be placed in. 
 
-// config/app.php
+To change locale you can then use:
+```php
+Gettext::setLocale('zh_CN');
+```
 
-'providers' => [
-    '...',
-    'Particker\LaravelGettext\GettextServiceProvider',
-];
+Just make sure that you have the locales installed on your system.
 
-'aliases' => [
-    '...',
-    'Gettext'    => 'Particker\LaravelGettext\Facade',
-];
-Now you have a Gettext facade available.
+After everything is set, you can run
+```php
+php artisan gettext
+```
+And your translations will be extracted from the views and added to the POT-file.
 
-Publish the config file:
+Dependencies
+----
+- gettext
+- xgettext (Ships with gettext on most systems)
+- msgmerge (Ships with gettext on most systems)
 
-php artisan vendor:publish
-Usage
-
-__('Here your text');
-__('Here your text with %s parameters', 1);
-__('Here your text with parameters %s and %s', 1, 2);
-Gettext Files
-
-By default, gettext .po and .mo files are stored in resources/gettext/xx_XX/LC_MESSAGES/messages.XX
-
-xx_XX is language code like en_US, es_ES, etc...
-
-Using your own Gettext function/helper
-
-If you want to create your alternative gettext function:
-
-
-// config/app.php
-
-'providers' => [
-    '...',
-    'Particker\LaravelGettext\GettextServiceProvider',
-    'App\Providers\GettextServiceProvider',
-];
-Create the file:
-
-
-// app/Providers/GettextServiceProvider.php
-
-<?php
-namespace App\Providers {
-    use Illuminate\Support\ServiceProvider;
-
-    class GettextServiceProvider extends ServiceProvider
-    {
-        public function register()
-        {
-        }
-    }
-}
-
-namespace {
-    function txt($original)
-    {
-        static $translator;
-
-        if (empty($translator)) {
-            $translator = app('gettext')->getTranslator();
-        }
-
-        $text = $translator->gettext($original);
-
-        if (func_num_args() === 1) {
-            return $text;
-        }
-
-        $args = array_slice(func_get_args(), 1);
-
-        return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
-    }
-}
-Configuration
-
-app/config/gettext.php
-
-return array(
-    /*
-    |--------------------------------------------------------------------------
-    | Available locales
-    |--------------------------------------------------------------------------
-    |
-    | A array list with available locales to load
-    |
-    | Default locale will the first in array list
-    |
-    */
-
-    'locales' => ['en_US', 'es_ES', 'it_IT', 'fr_FR'],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Directories to scan
-    |--------------------------------------------------------------------------
-    |
-    | Set directories to scan to find gettext strings (starting with __)
-    |
-    */
-
-    'directories' => ['app', 'resources'],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Where the translations are stored
-    |--------------------------------------------------------------------------
-    |
-    | Full path is $storage/xx_XX/LC_MESSAGES/$domain.XX
-    |
-    */
-
-    'storage' => 'storage/gettext',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Store files as domain name
-    |--------------------------------------------------------------------------
-    |
-    | Full path is $storage/xx_XX/LC_MESSAGES/$domain.XX
-    |
-    */
-
-    'domain' => 'messages',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Use native gettext functions
-    |--------------------------------------------------------------------------
-    |
-    | Are faster than open files from PHP. If you have enabled the php-gettext
-    | module, is recommended to enable.
-    |
-    */
-
-    'native' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Use package gettext methods
-    |--------------------------------------------------------------------------
-    |
-    | Enable gettext methods: __, noop__, n__, p__, d__, dp__, np__, dnp__
-    |
-    | Reference: https://github.com/oscarotero/Gettext/blob/master/src/translator_functions.php
-    |
-    */
-
-    'functions' => false,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Preference to load translations from format
-    |--------------------------------------------------------------------------
-    |
-    | Some systems and formats are fatest than others (low RAM or CPU usage)
-    | Available options are mo, po, php
-    |
-    */
-
-    'formats' => ['mo', 'php', 'po'],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cookie name
-    |--------------------------------------------------------------------------
-    |
-    | Locale cookie name. Cookie are stored as plain, without Laravel manager
-    |
-    */
-
-    'cookie' => 'locale'
-);
+Version
+----
+1.0
