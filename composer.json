@@ -1,5 +1,5 @@
 {
-	"name" : "laravel-gettext/laravel-gettext",
+	"name" : "particker/laravel-gettext",
 	"description" : "laravell gettext",
 	"type" : "gettext",
 	"homepage" : "https://github.com/Particker/laravel-gettext.git",
