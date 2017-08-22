@@ -11,13 +11,12 @@
 	"keywords" : [
 		"laravel gettext particker"
 	],
-	"require": {
-        "php": ">=5.3",
-        "gettext/gettext": "3.6.*"
-    },
-    "autoload": {
-        "psr-4": {
-            "Particker\\LaravelGettext\\": "src/Particker/LaravelGettext/"
-        }
-    }
+	"require" : {
+		"php" : ">=5.3"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Particker\\LaravelGettext\\" : "src/Particker/LaravelGettext/"
+		}
+	}
 }
